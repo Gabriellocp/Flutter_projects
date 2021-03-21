@@ -74,8 +74,8 @@ class _HomeState extends State<Home> {
   // Função que atualiza o campo do valor a ser comparado
   void _comparativeChanged(String value) {
     double _comparativeValue = double.parse(value);
-    var _thisval = _oftoValues[0];
-    var _thatval = _oftoValues[1];
+    var _thisval = _oftoValues[1];
+    var _thatval = _oftoValues[0];
 
     _actualValue.text =
         ((_comparativeValue * _thisval) / _thatval).toStringAsFixed(2);
