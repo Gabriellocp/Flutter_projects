@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
       children: [
         Scaffold(
           body: HomeTabs(),
-          drawer: CustomDrawer(),
+          drawer: CustomDrawer(_pageController),
         )
       ],
     );
