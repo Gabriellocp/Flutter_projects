@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.campista.loja_virtual">
    <application
+        android:usesCleartextTraffic="true"
         android:label="loja_virtual"
         android:icon="@mipmap/ic_launcher">
         <activity

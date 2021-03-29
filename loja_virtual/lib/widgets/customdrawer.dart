@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/models/user_model.dart';
+import 'package:loja_virtual/screens/login_screen.dart';
 import 'package:loja_virtual/tiles/drawertile.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class CustomDrawer extends StatelessWidget {
   final PageController _pageController;
@@ -38,23 +41,38 @@ class CustomDrawer extends StatelessWidget {
                   Positioned(
                     bottom: 0.0,
                     left: 0.0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Bem-vindo!",
-                          style: TextStyle(
-                              fontSize: 20.0, color: Colors.indigo[900]),
-                        ),
-                        GestureDetector(
-                          child: Text(
-                            "Entre ou cadastre-se >",
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor),
-                          ),
-                          onTap: () {},
-                        )
-                      ],
+                    child: ScopedModelDescendant<UserModel>(
+                      builder: (context, child, model) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              model.isLoggedIn()
+                                  ? "Olá, ${model.firebaseUser.displayName}"
+                                  : "Bem-vindo!",
+                              style: TextStyle(
+                                  fontSize: 20.0, color: Colors.indigo[900]),
+                            ),
+                            GestureDetector(
+                              child: Text(
+                                model.isLoggedIn()
+                                    ? "Sair"
+                                    : "Entre ou cadastre-se >",
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
+                              ),
+                              onTap: () {
+                                model.isLoggedIn()
+                                    ? model.signOut()
+                                    : Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                LoginScreen()));
+                              },
+                            )
+                          ],
+                        );
+                      },
                     ),
                   )
                 ],
