@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/user_model.dart';
+import 'package:loja_virtual/screens/change_infos.dart';
 import 'package:loja_virtual/screens/signup_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -102,6 +103,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         backgroundColor:
                             MaterialStateProperty.all(primaryColor)),
                   ),
+                  SizedBox(
+                    height: 40.0,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      model
+                          .loginWithGoogle()
+                          .then((_) => Navigator.of(context).pop())
+                          .then((_) => _hasInfoMissing(model));
+                    },
+                    child: Text("Entrar com o Google"),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(primaryColor)),
+                  ),
                 ],
               ),
             );
@@ -109,6 +125,13 @@ class _LoginScreenState extends State<LoginScreen> {
         },
       ),
     );
+  }
+
+  void _hasInfoMissing(UserModel model) {
+    if (model.userData["phone"] == null || model.userData["adress"] == null) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => ChangeInfoScreen()));
+    }
   }
 
   void _onSuccess() {

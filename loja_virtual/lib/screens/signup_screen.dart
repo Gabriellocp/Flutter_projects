@@ -56,7 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     keyboardType: TextInputType.phone,
                   ),
                   TextFormField(
-                    controller: _passController,
+                    controller: _adressController,
                     validator: (text) {
                       if (text.isEmpty) return "Campo vazio";
                     },

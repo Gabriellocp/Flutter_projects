@@ -1,14 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter/material.dart';
 
 class UserModel extends Model {
+  bool _loggedWithGoogle = false;
   FirebaseAuth _auth = FirebaseAuth.instance;
   User firebaseUser;
   Map<String, dynamic> userData = Map();
   bool isLoading = false;
 
+  final GoogleSignIn googleSignIn = GoogleSignIn();
   @override
   void addListener(VoidCallback listener) {
     super.addListener(listener);
@@ -69,10 +72,64 @@ class UserModel extends Model {
   }
 
   void signOut() async {
-    _auth.signOut();
+    if (_loggedWithGoogle) {
+      googleSignIn.signOut();
+      _loggedWithGoogle = false;
+    } else {
+      _auth.signOut();
+    }
     userData = Map();
     firebaseUser = null;
     notifyListeners();
+  }
+
+  Future<User> loginWithGoogle() async {
+    try {
+      final GoogleSignInAccount googleSignInAccount =
+          await googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+      final GoogleAuthCredential googleAuthCredential =
+          GoogleAuthProvider.credential(
+              accessToken: googleSignInAuthentication.accessToken,
+              idToken: googleSignInAuthentication.idToken);
+      final UserCredential firebaseAuth = await FirebaseAuth.instance
+          .signInWithCredential(googleAuthCredential);
+      _loggedWithGoogle = true;
+      this.firebaseUser = firebaseAuth.user;
+      DocumentSnapshot doc = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(firebaseUser.uid)
+          .get();
+      await _loadCurrentUser();
+      if (doc.exists) {
+        await _saveUserData({
+          "name": firebaseUser.displayName,
+          "email": firebaseUser.email,
+          "phone": userData["phone"],
+          "adress": userData["adress"]
+        });
+      } else {
+        await _saveUserData({
+          "name": firebaseUser.displayName,
+          "email": firebaseUser.email,
+          "phone": null,
+          "adress": null
+        });
+      }
+
+      return firebaseUser;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<Null> updateUserData(Map<String, dynamic> userData) async {
+    this.userData = userData;
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(firebaseUser.uid)
+        .update(userData);
   }
 
   Future<Null> _saveUserData(Map<String, dynamic> userData) async {
@@ -92,7 +149,8 @@ class UserModel extends Model {
             .collection("users")
             .doc(firebaseUser.uid)
             .get();
-        userData = docUser.data();
+        this.userData = docUser.data();
+
         notifyListeners();
       }
     }
