@@ -12,6 +12,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
+  final _adressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
@@ -55,6 +56,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     keyboardType: TextInputType.phone,
                   ),
                   TextFormField(
+                    controller: _passController,
+                    validator: (text) {
+                      if (text.isEmpty) return "Campo vazio";
+                    },
+                    decoration: InputDecoration(hintText: "Endereço"),
+                  ),
+                  TextFormField(
                     controller: _emailController,
                     decoration: InputDecoration(hintText: "E-mail"),
                     validator: (text) {
@@ -80,6 +88,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           "name": _nameController.text,
                           "phone": _phoneController.text,
                           "email": _emailController.text,
+                          "adress": _adressController.text
                         };
                         model.signUp(
                             userData: userData,

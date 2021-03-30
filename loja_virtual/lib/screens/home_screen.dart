@@ -12,18 +12,8 @@ class HomeScreen extends StatelessWidget {
       controller: _pageController,
       physics: NeverScrollableScrollPhysics(),
       children: [
-        Scaffold(
-          body: HomeTabs(),
-          drawer: CustomDrawer(_pageController),
-        ),
-        Scaffold(
-          appBar: AppBar(
-            title: Text("Menu"),
-            centerTitle: true,
-          ),
-          drawer: CustomDrawer(_pageController),
-          body: ProductTab(),
-        )
+        HomeTabs(_pageController),
+        ProductTab(_pageController),
       ],
     );
   }

@@ -121,6 +121,22 @@ class _ProducShowScreenState extends State<ProducShowScreen> {
                   product.description,
                   style: TextStyle(fontSize: 16.0),
                 ),
+                SizedBox(
+                  height: 30.0,
+                ),
+                Text(
+                  "Observações",
+                  style: TextStyle(fontSize: 20.0),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: "Observações do produto",
+                    border: OutlineInputBorder(),
+                  ),
+                ),
               ],
             ),
           )

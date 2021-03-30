@@ -74,7 +74,7 @@ class CustomDrawer extends StatelessWidget {
                         );
                       },
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -85,6 +85,18 @@ class CustomDrawer extends StatelessWidget {
             DrawerTile(Icons.playlist_add_check, "Pedidos", _pageController, 3),
           ],
         ),
+        Positioned(
+            bottom: 0.0,
+            left: 20.0,
+            child: Container(
+              height: 120.0,
+              width: 250.0,
+              alignment: Alignment.bottomCenter,
+              child: Image.network(
+                "https://www.novaconcursos.com.br/portal/wp-content/uploads/2019/04/unifei.jpg",
+                fit: BoxFit.fitHeight,
+              ),
+            )),
       ]),
     );
   }
