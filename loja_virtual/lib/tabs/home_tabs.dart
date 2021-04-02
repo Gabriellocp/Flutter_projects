@@ -5,6 +5,7 @@ import 'package:loja_virtual/datas/product_data.dart';
 import 'package:loja_virtual/screens/products_screen.dart';
 import 'package:loja_virtual/screens/products_show_screen.dart';
 import 'package:loja_virtual/tabs/product_tab.dart';
+import 'package:loja_virtual/widgets/cart_button.dart';
 import 'package:loja_virtual/widgets/customdrawer.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -22,6 +23,7 @@ class HomeTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: CartButton(),
       drawer: CustomDrawer(_pageController),
       body: Stack(
         children: [

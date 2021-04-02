@@ -1,6 +1,10 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/datas/cart_produtct.dart';
 import 'package:loja_virtual/datas/product_data.dart';
+import 'package:loja_virtual/models/cart_model.dart';
+import 'package:loja_virtual/models/user_model.dart';
+import 'package:loja_virtual/screens/login_screen.dart';
 
 class ProducShowScreen extends StatefulWidget {
   final ProductData product;
@@ -100,12 +104,29 @@ class _ProducShowScreenState extends State<ProducShowScreen> {
                 SizedBox(
                   height: 30.0,
                   child: ElevatedButton(
-                    onPressed: size != null ? () {} : null,
+                    onPressed: size != null
+                        ? () {
+                            if (UserModel.of(context).isLoggedIn()) {
+                              CartProduct product = CartProduct();
+                              product.price = this.product.price[index];
+                              product.size = size;
+                              product.quantity = 1;
+                              product.productid = this.product.id;
+                              product.category = this.product.category;
+                              CartModel.of(context).addCartItem(product);
+                            } else {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => LoginScreen()));
+                            }
+                          }
+                        : null,
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all(primaryColor)),
                     child: Text(
-                      "Adicionar ao carrinho",
+                      UserModel.of(context).isLoggedIn()
+                          ? "Adicionar ao carrinho"
+                          : "Entre para comprar",
                       style: TextStyle(fontSize: 20.0, color: Colors.black),
                     ),
                   ),

@@ -16,5 +16,20 @@ class ProductData {
     title = snapshot.get("title");
     price = snapshot.get("price");
     sizes = snapshot.get("sizes");
+    _convertToDouble();
+  }
+
+  void _convertToDouble() {
+    for (int i = 0; i < price.length; i++) {
+      price[i] += 0.0;
+    }
+  }
+
+  Map<String, dynamic> toResumedMap() {
+    return {
+      "title": title,
+      "description": description,
+      "price": price,
+    };
   }
 }

@@ -10,7 +10,8 @@ class UserModel extends Model {
   User firebaseUser;
   Map<String, dynamic> userData = Map();
   bool isLoading = false;
-
+  static UserModel of(BuildContext context) =>
+      ScopedModel.of<UserModel>(context);
   final GoogleSignIn googleSignIn = GoogleSignIn();
   @override
   void addListener(VoidCallback listener) {

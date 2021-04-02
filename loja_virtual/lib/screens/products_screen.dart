@@ -53,16 +53,20 @@ class ProductScreen extends StatelessWidget {
                     ),
                     itemCount: snapshot.data.docs.length,
                     itemBuilder: (context, index) {
-                      return ProductShowTile("grid",
-                          ProductData.fromDocument(snapshot.data.docs[index]));
+                      ProductData data =
+                          ProductData.fromDocument(snapshot.data.docs[index]);
+                      data.category = this.snapshot.id;
+                      return ProductShowTile("grid", data);
                     },
                   ),
                   ListView.builder(
                     padding: EdgeInsets.all(2.0),
                     itemCount: snapshot.data.docs.length,
                     itemBuilder: (context, index) {
-                      return ProductShowTile("list",
-                          ProductData.fromDocument(snapshot.data.docs[index]));
+                      ProductData data =
+                          ProductData.fromDocument(snapshot.data.docs[index]);
+                      data.category = this.snapshot.id;
+                      return ProductShowTile("list", data);
                     },
                   )
                 ],
