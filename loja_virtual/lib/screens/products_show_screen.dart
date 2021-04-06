@@ -113,6 +113,7 @@ class _ProducShowScreenState extends State<ProducShowScreen> {
                               product.quantity = 1;
                               product.productid = this.product.id;
                               product.category = this.product.category;
+                              product.productData = this.product;
                               CartModel.of(context).addCartItem(product);
                             } else {
                               Navigator.of(context).push(MaterialPageRoute(

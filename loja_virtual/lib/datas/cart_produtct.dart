@@ -16,6 +16,7 @@ class CartProduct {
     category = snapshot.get("category");
     productid = snapshot.get("pid");
     quantity = snapshot.get("quant");
+    price = snapshot.get("price");
     size = snapshot.get("size");
   }
 
@@ -25,8 +26,8 @@ class CartProduct {
       "pid": productid,
       "quant": quantity,
       "size": size,
-      "price": price
-      //"product": productData.toResumedMap(),
+      "price": price,
+      "product": productData.toResumedMap(),
     };
   }
 }
